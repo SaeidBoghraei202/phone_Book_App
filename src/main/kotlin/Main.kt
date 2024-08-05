@@ -1,16 +1,80 @@
-package org.example
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+val dataUsers = mutableMapOf<String,String>()
+
+
 fun main() {
-    val name = "Kotlin"
-    //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-    // to see how IntelliJ IDEA suggests fixing it.
-    println("Hello, " + name + "!")
 
-    for (i in 1..5) {
-        //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-        // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-        println("i = $i")
+    while (true){
+
+        try {
+
+            when(menu()){
+
+                1->addUser()
+                2->checkUser()
+                3->removeUser()
+                0->break
+
+            }
+
+        }catch (e:Exception){
+            println("مقدار نامعتبر وارد شده است !")
+            println(e.message)
+        }
+
+
+
+
+    }
+
+}
+
+fun menu():Int{
+
+    println("[1]   اضافه کردن مخاطب ")
+    println("[2] استعلام شماره مخاطب ")
+    println("[3]   حذف اطلاعات مخاطب ")
+    println("[0]     خروج از برنامه ")
+    println("=======================")
+    val request = readLine()?.toInt()!!
+    return request
+}
+
+fun addUser() {
+    println("نام مخاطب را وارد نمایید")
+    var userName = readLine()!!
+    println("شماره مخاطب را وارد نمایید")
+    var phoneNumber = readLine()!!
+    var checking = dataUsers.filter { it.value == phoneNumber }
+    if (checking.isNotEmpty())
+        return println("کاربری با این شماره قبلا ثبت گردیده است !")
+    dataUsers[userName]=phoneNumber
+    println("اطلاعات کاربر با موفقیت ثبت شد ")
+}
+
+fun checkUser(){
+    println("نام مخاطب را وارد نمایید")
+    var name = readLine()!!
+    if (dataUsers.containsKey(name)) {
+        val value = dataUsers[name]
+        println("شماره $name برابر  است با : $value")
+    } else {
+        println("نام وارد شده در لیست وجود ندارد.")
     }
 }
+
+fun removeUser(){
+    println("نام مخاطب را وارد نمایید")
+    var name = readLine()!!
+    if (dataUsers.containsKey(name)) {
+        dataUsers.remove(name)
+        println("کاربر با موفقیت حذف گردید")
+        return
+    } else {
+        println("نام وارد شده در لیست وجود ندارد.")
+    }
+
+}
+
+
+
